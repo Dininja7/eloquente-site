@@ -292,16 +292,6 @@
             m.style.display = m.style.display === 'block' ? 'none' : 'block'; 
         }
 
-        window.onload = function() {
-            if (!localStorage.getItem('cookiesAceites')) {
-                document.getElementById('cookieBanner').classList.remove('hidden');
-            }
-        }
-
-        function acceptCookies() {
-            localStorage.setItem('cookiesAceites', 'true');
-            document.getElementById('cookieBanner').classList.add('hidden');
-        }
     </script>
 <script>
         // Esta função já deves ter, mas garante que termina com o }
@@ -309,27 +299,6 @@
             const m = document.getElementById('policyModal'); 
             m.style.display = m.style.display === 'block' ? 'none' : 'block'; 
         }
-
-        // LÓGICA DO BANNER
-        window.onload = function() {
-            if (!localStorage.getItem('cookiesAceites')) {
-                const banner = document.getElementById('cookieBanner');
-                if (banner) {
-                    banner.classList.remove('hidden');
-                    banner.style.display = 'flex'; // Força a exibição
-                }
-            }
-        }
-
-        function acceptCookies() {
-            localStorage.setItem('cookiesAceites', 'true');
-            const banner = document.getElementById('cookieBanner');
-            if (banner) {
-                banner.style.display = 'none'; // Esconde na hora
-            }
-        }
-    </script>
-</body>
-</html>
+     </script>
 </body> 
 </html>
