@@ -173,11 +173,11 @@
             // --- CENÁRIO 1: DESCULPAS / AVISOS (Faltas, Atrasos, Problemas) ---
             if (isDesculpa) {
                 if(v === 1) { // Direta
-                    corpo = `Escrevo para informar que ${s}. Peço desculpa pelo incómodo que isto possa causar.`;
+                    corpo = `Escrevo para informar que vou ${s}. Peço desculpa pelo incómodo que isto possa causar.`;
                 } else if(v === 2) { // Diplomática
-                    corpo = `Infelizmente, gostaria de comunicar que ${s}. Lamento imenso o imprevisto e agradeço a sua compreensão.`;
+                    corpo = `Infelizmente, gostaria de comunicar que vou ${s}. Lamento imenso o imprevisto e agradeço a sua compreensão.`;
                 } else { // Elaborada
-                    corpo = `Venho por este meio justificar o facto de ${s}. Gostaria de expressar as minhas sinceras desculpas por qualquer transtorno que esta situação possa originar.`;
+                    corpo = `Venho por este meio justificar o facto de que vou ${s}. Gostaria de expressar as minhas sinceras desculpas por qualquer transtorno que esta situação possa originar.`;
                 }
                 
                 // Expansão de Desculpa
@@ -193,11 +193,11 @@
                 const conector = /^(rever|fazer|ter|ser|ir|aumentar|marcar)/.test(s) ? "para " : "sobre ";
                 
                 if(v === 1) { // Direta
-                    corpo = `Entro em contacto consigo ${conector}${s}. Gostaria de saber como podemos proceder.`;
+                    corpo = `Entro em contacto consigo com o objetivo de ${conector}${s}. Gostaria de saber como podemos proceder.`;
                 } else if(v === 2) { // Diplomática
-                    corpo = `Espero que se encontre bem. Escrevo-lhe ${conector}${s}. Sinto que seria importante analisarmos esta questão.`;
+                    corpo = `Espero que se encontre bem. Escrevo-lhe com o objetivo de ${conector}${s}. Sinto que seria importante analisarmos esta questão.`;
                 } else { // Elaborada
-                    corpo = `Venho solicitar a sua atenção ${conector}${s}. Acredito que, com a devida análise, conseguiremos chegar a uma solução positiva.`;
+                    corpo = `Venho solicitar a sua atenção com o objetivo de ${conector}${s}. Acredito que, com a devida análise, conseguiremos chegar a uma solução positiva.`;
                 }
 
                 // Expansão de Pedido
