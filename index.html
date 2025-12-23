@@ -65,9 +65,9 @@
             </div>
             
             <div class="form-group">
-                <label>O que pretendes? (Escreva de forma direta)</label>
-                <span class="instruction">Dica: Comece pelo verbo. Ex: "rever a nota" (em vez de "queria pedir para rever")</span>
-                <textarea id="situacao" rows="3" placeholder="Ex: rever a nota de matemática / justificar a falta de ontem..."></textarea>
+                <label>O que pretendes? (Situação direta)</label>
+                <span class="instruction">Exemplos: "rever a nota", "chegar atrasado", "faltar à reunião"</span>
+                <textarea id="situacao" rows="3" placeholder="Escreva aqui a situação..."></textarea>
             </div>
 
             <div class="form-group">
@@ -95,7 +95,7 @@
 
         <div id="loading" class="hidden">
             <div class="spinner"></div>
-            <p>A otimizar o texto...</p>
+            <p>A analisar o contexto...</p>
         </div>
 
         <div id="step-2" class="screen hidden">
@@ -154,14 +154,13 @@
             const dest = d.dest.trim();
             const ultimoChar = dest.slice(-1).toLowerCase();
             
-            // LIMPEZA: Remove tentativas de frases longas se o usuário ignorar a instrução
+            // LIMPEZA DA ENTRADA
             let s = d.sit.toLowerCase().trim();
-            s = s.replace(/^(pedir para|pedir a|queria|gostaria de|avisar que|solicitar que|fazer a|eu preciso)/g, "").trim();
+            s = s.replace(/^(pedir para|pedir a|queria|gostaria de|avisar que|vou|que vou|solicitar que|fazer a|eu preciso|informar que)/g, "").trim();
 
-            // CONECTORES
-            const iniciaComVerbo = /^(rever|fazer|ter|ser|ir|aumentar|marcar|discutir|falar|entregar|justificar|saber)/.test(s);
-            const conector = iniciaComVerbo ? "para " : "sobre "; 
-            const conectorLongo = iniciaComVerbo ? "com o objetivo de " : "relativamente a ";
+            // LÓGICA DE DETEÇÃO DE CONTEXTO (PEDIDO vs. DESCULPA)
+            // Palavras que indicam problemas/desculpas
+            const isDesculpa = /^(atras|falt|chegar|esquec|doente|imprevisto|justific|desculp|ausen|perder)/.test(s);
 
             // SAUDAÇÃO
             let saudacao = "";
@@ -169,31 +168,49 @@
             else if(d.form === 'informal') saudacao = `Olá ${dest}, tudo bem?`;
             else saudacao = `Olá ${dest},`;
 
-            // CORPO
             let corpo = "";
-            if(v === 1) { // DIRETA
-                corpo = `Entro em contacto consigo ${conector}${s}. Gostaria de saber qual a melhor forma de tratarmos deste assunto.`;
-            } else if(v === 2) { // DIPLOMÁTICA
-                corpo = `Espero que se encontre bem. Escrevo-lhe ${conectorLongo}${s}. Sinto que seria importante analisarmos esta questão com brevidade.`;
-            } else { // ELABORADA
-                corpo = `Venho por este meio solicitar a sua atenção ${conectorLongo}${s}. Acredito que, com a devida análise, conseguiremos chegar a uma solução positiva.`;
-            }
 
-            // TAMANHO
-            if(d.tam === 'medio' || d.tam === 'longo') {
-                if(s.includes("nota") || s.includes("prova")) {
-                    corpo += ` O meu objetivo é compreender melhor o meu desempenho e alinhar expectativas para o futuro.`;
-                } else if(s.includes("aumento") || s.includes("salário")) {
-                    corpo += ` Tenho estado muito focado nos objetivos da equipa e gostaria de discutir o meu percurso.`;
-                } else if(s.includes("falta") || s.includes("justificar")) {
-                     corpo += ` Lamento qualquer inconveniente causado e comprometo-me a recuperar o trabalho pendente.`;
-                } else {
-                    corpo += ` Agradeço desde já a sua disponibilidade para me ajudar com esta situação.`;
+            // --- CENÁRIO 1: DESCULPAS / AVISOS (Faltas, Atrasos, Problemas) ---
+            if (isDesculpa) {
+                if(v === 1) { // Direta
+                    corpo = `Escrevo para informar que ${s}. Peço desculpa pelo incómodo que isto possa causar.`;
+                } else if(v === 2) { // Diplomática
+                    corpo = `Infelizmente, gostaria de comunicar que ${s}. Lamento imenso o imprevisto e agradeço a sua compreensão.`;
+                } else { // Elaborada
+                    corpo = `Venho por este meio justificar o facto de ${s}. Gostaria de expressar as minhas sinceras desculpas por qualquer transtorno que esta situação possa originar.`;
                 }
-            }
+                
+                // Expansão de Desculpa
+                if(d.tam === 'medio' || d.tam === 'longo') {
+                    corpo += ` Foi uma situação que fugiu ao meu controlo, mas estou a fazer os possíveis para minimizar o impacto.`;
+                }
+                if(d.tam === 'longo') {
+                    corpo += ` Comprometo-me a recuperar qualquer tarefa pendente o mais brevemente possível.`;
+                }
 
-            if(d.tam === 'longo') {
-                corpo += ` Fico a aguardar o seu feedback e estou totalmente disponível para reunir presencialmente, caso considere necessário.`;
+            // --- CENÁRIO 2: PEDIDOS / AÇÕES (Notas, Reuniões, Dúvidas) ---
+            } else {
+                const conector = /^(rever|fazer|ter|ser|ir|aumentar|marcar)/.test(s) ? "para " : "sobre ";
+                
+                if(v === 1) { // Direta
+                    corpo = `Entro em contacto consigo ${conector}${s}. Gostaria de saber como podemos proceder.`;
+                } else if(v === 2) { // Diplomática
+                    corpo = `Espero que se encontre bem. Escrevo-lhe ${conector}${s}. Sinto que seria importante analisarmos esta questão.`;
+                } else { // Elaborada
+                    corpo = `Venho solicitar a sua atenção ${conector}${s}. Acredito que, com a devida análise, conseguiremos chegar a uma solução positiva.`;
+                }
+
+                // Expansão de Pedido
+                if(d.tam === 'medio' || d.tam === 'longo') {
+                    if(s.includes("nota") || s.includes("prova")) {
+                        corpo += ` O meu objetivo é compreender o meu desempenho e alinhar expectativas.`;
+                    } else {
+                        corpo += ` Agradeço desde já a sua disponibilidade para me ajudar com esta situação.`;
+                    }
+                }
+                if(d.tam === 'longo') {
+                    corpo += ` Fico a aguardar o seu feedback e disponível para reunir presencialmente, caso considere necessário.`;
+                }
             }
 
             // DESPEDIDA
