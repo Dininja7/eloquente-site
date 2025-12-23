@@ -338,6 +338,33 @@
         </p>
         <button class="cookie-btn" onclick="acceptCookies()">Aceitar e Fechar</button>
     </div>
+<script>
+        // Esta função já deves ter, mas garante que termina com o }
+        function toggleModal() { 
+            const m = document.getElementById('policyModal'); 
+            m.style.display = m.style.display === 'block' ? 'none' : 'block'; 
+        }
 
+        // LÓGICA DO BANNER
+        window.onload = function() {
+            if (!localStorage.getItem('cookiesAceites')) {
+                const banner = document.getElementById('cookieBanner');
+                if (banner) {
+                    banner.classList.remove('hidden');
+                    banner.style.display = 'flex'; // Força a exibição
+                }
+            }
+        }
+
+        function acceptCookies() {
+            localStorage.setItem('cookiesAceites', 'true');
+            const banner = document.getElementById('cookieBanner');
+            if (banner) {
+                banner.style.display = 'none'; // Esconde na hora
+            }
+        }
+    </script>
+</body>
+</html>
 </body> 
 </html>
