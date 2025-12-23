@@ -34,7 +34,7 @@
         .result-text { font-size: 15px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 15px; }
         .copy-btn { font-size: 12px; color: var(--primary); background: #f0fdfa; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
         
-        /* RODAPÉ CHAMATIVO (RESTAURADO) */
+        /* RODAPÉ */
         footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 2px solid var(--border); width: 100%; background: #ffffff; box-sizing: border-box; }
         footer p { font-size: 14px; color: #4b5563; margin: 0; }
         footer a { color: var(--primary); text-decoration: underline; font-weight: bold; cursor: pointer; margin-left: 10px; }
@@ -63,10 +63,13 @@
                 <label>O teu nome</label>
                 <input type="text" id="nomeUsuario" placeholder="Ex: Pedro">
             </div>
+            
             <div class="form-group">
-                <label>O que pretendes? (Situação)</label>
-                <textarea id="situacao" rows="3" placeholder="Ex: pedir para rever a nota de matemática..."></textarea>
+                <label>O que pretendes? (Escreva de forma direta)</label>
+                <span class="instruction">Dica: Comece pelo verbo. Ex: "rever a nota" (em vez de "queria pedir para rever")</span>
+                <textarea id="situacao" rows="3" placeholder="Ex: rever a nota de matemática / justificar a falta de ontem..."></textarea>
             </div>
+
             <div class="form-group">
                 <label>Para quem é?</label>
                 <input type="text" id="destinatario" placeholder="Ex: Professora Maria">
@@ -151,25 +154,23 @@
             const dest = d.dest.trim();
             const ultimoChar = dest.slice(-1).toLowerCase();
             
-            // 1. LIMPEZA INTELIGENTE: Remove "pedir para", "queria", etc.
+            // LIMPEZA: Remove tentativas de frases longas se o usuário ignorar a instrução
             let s = d.sit.toLowerCase().trim();
-            s = s.replace(/^(pedir para|pedir a|queria|gostaria de|avisar que|solicitar que|fazer a)/g, "").trim();
+            s = s.replace(/^(pedir para|pedir a|queria|gostaria de|avisar que|solicitar que|fazer a|eu preciso)/g, "").trim();
 
-            // 2. DETEÇÃO DE VERBO: Se começar por verbo, usa "para", senão usa "sobre"
-            // Lista básica de verbos comuns no início
-            const iniciaComVerbo = /^(rever|fazer|ter|ser|ir|aumentar|marcar|discutir|falar|entregar)/.test(s);
+            // CONECTORES
+            const iniciaComVerbo = /^(rever|fazer|ter|ser|ir|aumentar|marcar|discutir|falar|entregar|justificar|saber)/.test(s);
             const conector = iniciaComVerbo ? "para " : "sobre "; 
             const conectorLongo = iniciaComVerbo ? "com o objetivo de " : "relativamente a ";
 
-            // 3. SAUDAÇÃO
+            // SAUDAÇÃO
             let saudacao = "";
             if(d.form === 'formal') saudacao = (ultimoChar === 'a') ? `Prezada ${dest},` : `Prezado ${dest},`;
             else if(d.form === 'informal') saudacao = `Olá ${dest}, tudo bem?`;
             else saudacao = `Olá ${dest},`;
 
-            // 4. CORPO DA MENSAGEM (3 VARIAÇÕES)
+            // CORPO
             let corpo = "";
-            
             if(v === 1) { // DIRETA
                 corpo = `Entro em contacto consigo ${conector}${s}. Gostaria de saber qual a melhor forma de tratarmos deste assunto.`;
             } else if(v === 2) { // DIPLOMÁTICA
@@ -178,12 +179,14 @@
                 corpo = `Venho por este meio solicitar a sua atenção ${conectorLongo}${s}. Acredito que, com a devida análise, conseguiremos chegar a uma solução positiva.`;
             }
 
-            // 5. EXPANSÃO POR TAMANHO (AQUI ESTÁ A LÓGICA QUE FALTAVA)
+            // TAMANHO
             if(d.tam === 'medio' || d.tam === 'longo') {
                 if(s.includes("nota") || s.includes("prova")) {
                     corpo += ` O meu objetivo é compreender melhor o meu desempenho e alinhar expectativas para o futuro.`;
                 } else if(s.includes("aumento") || s.includes("salário")) {
                     corpo += ` Tenho estado muito focado nos objetivos da equipa e gostaria de discutir o meu percurso.`;
+                } else if(s.includes("falta") || s.includes("justificar")) {
+                     corpo += ` Lamento qualquer inconveniente causado e comprometo-me a recuperar o trabalho pendente.`;
                 } else {
                     corpo += ` Agradeço desde já a sua disponibilidade para me ajudar com esta situação.`;
                 }
@@ -193,7 +196,7 @@
                 corpo += ` Fico a aguardar o seu feedback e estou totalmente disponível para reunir presencialmente, caso considere necessário.`;
             }
 
-            // 6. DESPEDIDA
+            // DESPEDIDA
             let desp = "";
             if(d.form === 'formal') desp = `\n\nAtenciosamente,\n${d.nome}`;
             else if(d.form === 'informal') desp = `\n\nUm abraço,\n${d.nome}`;
