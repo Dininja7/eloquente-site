@@ -47,28 +47,46 @@
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
         .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 12px; width: 85%; max-width: 500px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #9ca3af; }
-        /* Novas dicas de etiqueta */  /* Grelha de Artigos Corrigida */
-       /* Grelha de Artigos */
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 60px auto !important; /* Força o distanciamento do gerador */
-            padding: 20px;
-            clear: both; /* Garante que não há elementos flutuantes a estorvar */
+        .close-btn { 
+            position: absolute; 
+            top: 10px; 
+            right: 15px; 
+            font-size: 24px; 
+            cursor: pointer; 
+            color: #9ca3af; 
         }
-        .article-card {
-            background: white;
+
+        /* Novas dicas de etiqueta */
+        .tips-section {
+            max-width: 600px;
+            margin: 30px auto;
             padding: 20px;
+            background: #fff;
             border-radius: 12px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            text-align: left;
+            border: 1px dashed var(--border);
         }
-        .article-card h3 { color: var(--primary); margin: 10px 0; font-size: 17px; }
-        .article-card p { font-size: 13px; line-height: 1.5; color: #4b5563; }
-        .article-tag { background: #f0fdfa; color: var(--primary); padding: 3px 7px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+        .tips-section h3 {
+            color: var(--primary);
+            font-size: 18px;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tip-card {
+            margin-bottom: 15px;
+        }
+        .tip-card h4 {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #374151;
+        }
+        .tip-card p {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.4;
+        }
         /* BANNER DE PRIVACIDADE / COOKIES */
         .cookie-banner {
             position: fixed;
@@ -164,7 +182,7 @@
             <div class="result-card"><div class="result-text" id="res-3"></div><button class="copy-btn" onclick="copy('res-3')">Copiar</button></div>
         </div>
     </div>
- </div> <div class="tips-section">
+</div> <div class="tips-section">
         <h3>💡 Dicas de Etiqueta Profissional</h3>
         
         <div class="tip-card">
@@ -183,7 +201,8 @@
         </div>
     </div>
 
-    <footer>
+    <footer> <p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p>
+   
         <p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p>
     </footer>
 
@@ -251,7 +270,7 @@
                 } else if(v === 2) { // Diplomática
                     corpo = `Infelizmente, gostaria de comunicar que vou ${s}. Lamento imenso o imprevisto e agradeço a sua compreensão.`;
                 } else { // Elaborada
-                    corpo = `Venho por este meio justificar o facto de que vou ${s}. Gostaria de expressar as minhas sinceras desculpas por qualquer transtorno que esta situação possa originar.`;
+                    corpo = `Venho por este meio justificar o facto de vou ${s}. Gostaria de expressar as minhas sinceras desculpas por qualquer transtorno que esta situação possa originar.`;
                 }
                 
                 // Expansão de Desculpa
@@ -298,7 +317,7 @@
 
         function back() { document.getElementById('step-2').classList.add('hidden'); document.getElementById('step-1').classList.remove('hidden'); }
         function copy(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); alert("Copiado!"); }
-       function toggleModal() { 
+        function toggleModal() { 
             const m = document.getElementById('policyModal'); 
             m.style.display = m.style.display === 'block' ? 'none' : 'block'; 
         }
@@ -313,8 +332,7 @@
             localStorage.setItem('cookiesAceites', 'true');
             document.getElementById('cookieBanner').classList.add('hidden');
         }
-    </script> 
-    <div id="cookieBanner" class="cookie-banner hidden">
+    </script> <div id="cookieBanner" class="cookie-banner hidden">
         <p>
             <b>Privacidade e Cookies:</b> Este site utiliza cookies para personalizar anúncios e analisar o tráfego. 
             Ao continuar a utilizar o Eloquente, concorda com a nossa <a onclick="toggleModal()" style="color:var(--primary); cursor:pointer; text-decoration:underline;">Política de Privacidade</a>.
@@ -322,31 +340,5 @@
         <button class="cookie-btn" onclick="acceptCookies()">Aceitar e Fechar</button>
     </div>
 
-    <script>
-        // Esta função já deves ter, mas garante que termina com o }
-        function toggleModal() { 
-            const m = document.getElementById('policyModal'); 
-            m.style.display = m.style.display === 'block' ? 'none' : 'block'; 
-        }
-
-        // LÓGICA DO BANNER
-        window.onload = function() {
-            if (!localStorage.getItem('cookiesAceites')) {
-                const banner = document.getElementById('cookieBanner');
-                if (banner) {
-                    banner.classList.remove('hidden');
-                    banner.style.display = 'flex'; // Força a exibição
-                }
-            }
-        }
-
-        function acceptCookies() {
-            localStorage.setItem('cookiesAceites', 'true');
-            const banner = document.getElementById('cookieBanner');
-            if (banner) {
-                banner.style.display = 'none'; // Esconde na hora
-            }
-        }
-    </script>
-</body>
+</body> 
 </html>
