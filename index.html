@@ -3,105 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eloquente - Gerador Inteligente</title>
+    <title>Eloquente - Gerador de Mensagens Profissionais</title>
     <style>
         :root { --primary: #0f766e; --bg-page: #f3f4f6; --text: #1f2937; --border: #d1d5db; }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-page); color: var(--text); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; }
+        
         header { max-width: 600px; width: 100%; margin: 0 auto 20px auto; display: flex; align-items: center; gap: 10px; }
         .logo-icon { width: 35px; height: 35px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; }
         .brand-name { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -1px; }
+
         .container { background: white; width: 100%; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); flex-grow: 1; }
         .screen { display: block; animation: fadeIn 0.4s ease; }
         .hidden { display: none; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 5px; }
+        .instruction { font-size: 11px; color: #ef4444; margin-bottom: 8px; display: block; font-weight: bold; }
         input, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; font-family: inherit; }
+        
         .grid-options { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
         .chip { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 13px; background: white; transition: 0.2s; }
         .chip.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+
         .btn-primary { width: 100%; background-color: var(--primary); color: white; border: none; padding: 16px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 15px; }
         .btn-secondary { background: transparent; color: #6b7280; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; margin-bottom: 20px; font-size: 14px; }
-        .result-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 25px; }
-        .result-text { font-size: 15px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; }
-        .copy-btn { font-size: 12px; color: var(--primary); background: #f0fdfa; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 10px; }
-        footer { text-align: center; margin-top: 50px; padding: 25px; border-top: 2px solid var(--border); background: #ffffff; }
-        footer a { color: var(--primary); text-decoration: underline; font-weight: bold; cursor: pointer; }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
-        .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 12px; width: 85%; max-width: 500px; position: relative; }
+
+        .version-tag { font-size: 11px; font-weight: bold; color: var(--primary); margin: 25px 0 8px 0; display: block; text-transform: uppercase; letter-spacing: 1px; }
+        .result-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 10px; }
+        .result-text { font-size: 15px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 15px; }
+        .copy-btn { font-size: 12px; color: var(--primary); background: #f0fdfa; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        
+        /* RODAPÉ CHAMATIVO (RESTAURADO) */
+        footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 2px solid var(--border); width: 100%; background: #ffffff; box-sizing: border-box; }
+        footer p { font-size: 14px; color: #4b5563; margin: 0; }
+        footer a { color: var(--primary); text-decoration: underline; font-weight: bold; cursor: pointer; margin-left: 10px; }
+
         #loading { text-align: center; padding: 60px; }
         .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* MODAL */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
+        .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 12px; width: 85%; max-width: 500px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #9ca3af; }
     </style>
 </head>
 <body>
-    <header><div class="logo-icon">E</div><span class="brand-name">Eloquente</span></header>
+
+    <header>
+        <div class="logo-icon">E</div>
+        <span class="brand-name">Eloquente</span>
+    </header>
+
     <div class="container">
         <div id="step-1" class="screen">
-            <h2>O que pretendes escrever?</h2>
-            <div class="form-group"><textarea id="situacao" rows="3" placeholder="Ex: revisão da nota de português para aumentar a média interna..."></textarea></div>
-            <div class="form-group"><label>Para quem é?</label><input type="text" id="destinatario" placeholder="Ex: Professora Maria"></div>
-            <div class="form-group"><label>O teu nome</label><input type="text" id="nomeUsuario" placeholder="O teu nome"></div>
+            <h2>Configurar Mensagem</h2>
             <div class="form-group">
-                <label>Tom da mensagem</label>
+                <label>O teu nome</label>
+                <input type="text" id="nomeUsuario" placeholder="Ex: Pedro">
+            </div>
+            <div class="form-group">
+                <label>O que pretendes? (Situação)</label>
+                <textarea id="situacao" rows="3" placeholder="Ex: pedir para rever a nota de matemática..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Para quem é?</label>
+                <input type="text" id="destinatario" placeholder="Ex: Professora Maria">
+            </div>
+            <div class="form-group">
+                <label>Formalidade</label>
                 <div class="grid-options" id="formal-group">
                     <div class="chip" onclick="selectOpt('formal-group', this)" data-val="informal">Amigável</div>
                     <div class="chip active" onclick="selectOpt('formal-group', this)" data-val="neutro">Profissional</div>
                     <div class="chip" onclick="selectOpt('formal-group', this)" data-val="formal">Muito Formal</div>
                 </div>
             </div>
-            <button class="btn-primary" onclick="gerar()">✨ Gerar Texto Personalizado</button>
+            <div class="form-group">
+                <label>Tamanho da mensagem</label>
+                <div class="grid-options" id="tam-group">
+                    <div class="chip" onclick="selectOpt('tam-group', this)" data-val="curto">Curto</div>
+                    <div class="chip active" onclick="selectOpt('tam-group', this)" data-val="medio">Médio</div>
+                    <div class="chip" onclick="selectOpt('tam-group', this)" data-val="longo">Longo</div>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="gerar()">✨ Gerar Mensagens</button>
         </div>
-        <div id="loading" class="hidden"><div class="spinner"></div><p>A processar contexto e tom...</p></div>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>A otimizar o texto...</p>
+        </div>
+
         <div id="step-2" class="screen hidden">
-            <button class="btn-secondary" onclick="back()">← Editar informações</button>
-            <div class="result-card"><div class="result-text" id="res-1"></div><button class="copy-btn" onclick="copy('res-1')">Copiar Opção 1</button></div>
-            <div class="result-card"><div class="result-text" id="res-2"></div><button class="copy-btn" onclick="copy('res-2')">Copiar Opção 2</button></div>
+            <button class="btn-secondary" onclick="back()">← Voltar e editar</button>
+            <span class="version-tag">Opção 1: Direta</span>
+            <div class="result-card"><div class="result-text" id="res-1"></div><button class="copy-btn" onclick="copy('res-1')">Copiar</button></div>
+            <span class="version-tag">Opção 2: Diplomática</span>
+            <div class="result-card"><div class="result-text" id="res-2"></div><button class="copy-btn" onclick="copy('res-2')">Copiar</button></div>
+            <span class="version-tag">Opção 3: Elaborada</span>
+            <div class="result-card"><div class="result-text" id="res-3"></div><button class="copy-btn" onclick="copy('res-3')">Copiar</button></div>
         </div>
     </div>
-    <footer><p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p></footer>
-    <div id="policyModal" class="modal"><div class="modal-content"><span style="float:right;cursor:pointer" onclick="toggleModal()">&times;</span>
-    <h3>Política de Privacidade</h3>
-    <p>Dados processados localmente. Utilizamos cookies do Google AdSense para anúncios.</p></div></div>
+
+    <footer>
+        <p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p>
+    </footer>
+
+    <div id="policyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal()">&times;</span>
+            <h3>Política de Privacidade</h3>
+            <p>Respeitamos a sua privacidade. Os dados que insere no formulário são processados apenas para gerar os textos no seu navegador e <strong>não são guardados</strong> em nenhum servidor.</p>
+            <p><strong>Google AdSense:</strong> Este site utiliza cookies para personalizar anúncios e analisar o tráfego. O Google utiliza o cookie DART para servir anúncios baseados nas suas visitas a este e outros sites na internet.</p>
+        </div>
+    </div>
+
     <script>
-        function selectOpt(g, e) { Array.from(document.getElementById(g).children).forEach(c => c.classList.remove('active')); e.classList.add('active'); }
+        function selectOpt(g, e) {
+            Array.from(document.getElementById(g).children).forEach(c => c.classList.remove('active'));
+            e.classList.add('active');
+        }
+
         function gerar() {
-            const sit = document.getElementById('situacao').value; if(!sit) return alert("Descreva a situação");
-            document.getElementById('step-1').classList.add('hidden'); document.getElementById('loading').classList.remove('hidden');
+            const sit = document.getElementById('situacao').value;
+            if(!sit) return alert("Por favor, descreva a situação");
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
             setTimeout(() => {
-                const d = { sit, nome: document.getElementById('nomeUsuario').value || "[Teu Nome]", dest: document.getElementById('destinatario').value || "Destinatário", form: document.querySelector('#formal-group .active').getAttribute('data-val') };
+                const d = {
+                    sit: sit, 
+                    nome: document.getElementById('nomeUsuario').value || "[Seu Nome]",
+                    dest: document.getElementById('destinatario').value || "Destinatário",
+                    form: document.querySelector('#formal-group .active').getAttribute('data-val'),
+                    tam: document.querySelector('#tam-group .active').getAttribute('data-val')
+                };
                 document.getElementById('res-1').innerText = engine(d, 1);
                 document.getElementById('res-2').innerText = engine(d, 2);
-                document.getElementById('loading').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden');
+                document.getElementById('res-3').innerText = engine(d, 3);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('step-2').classList.remove('hidden');
             }, 800);
         }
 
         function engine(d, v) {
             const dest = d.dest.trim();
-            const s = d.sit.toLowerCase().trim().replace(/^(pedir para|avisar que|queria|gostaria de|fazer)/g, "").trim();
-            const genero = (dest.slice(-1).toLowerCase() === 'a') ? "a" : "o";
-            const saud = d.form === 'formal' ? `Prezad${genero} ${dest},` : `Olá ${dest},`;
-
-            // LÓGICA DE CATEGORIA (Simulação de IA)
-            let introducao = "";
-            let argumento = "";
+            const ultimoChar = dest.slice(-1).toLowerCase();
             
-            if(s.includes("nota") || s.includes("prova") || s.includes("exame")) {
-                introducao = v === 1 ? `Gostaria de abordar a questão da ${s}.` : `Relativamente ao meu desempenho em ${s},`;
-                argumento = `Sinto que o meu empenho na disciplina justifica uma breve análise deste ponto, focando-me na melhoria dos meus resultados internos.`;
-            } else if(s.includes("atraso") || s.includes("falta") || s.includes("ausência")) {
-                introducao = `Escrevo para informar sobre ${s}.`;
-                argumento = `Infelizmente, devido a motivos imprevistos, não conseguirei cumprir o horário habitual e agradeço a sua compreensão.`;
-            } else {
-                introducao = `Entro em contacto para tratar de ${s}.`;
-                argumento = `Acredito que seria benéfico conversarmos para alinhar os detalhes e garantir que tudo corra da melhor forma.`;
+            // 1. LIMPEZA INTELIGENTE: Remove "pedir para", "queria", etc.
+            let s = d.sit.toLowerCase().trim();
+            s = s.replace(/^(pedir para|pedir a|queria|gostaria de|avisar que|solicitar que|fazer a)/g, "").trim();
+
+            // 2. DETEÇÃO DE VERBO: Se começar por verbo, usa "para", senão usa "sobre"
+            // Lista básica de verbos comuns no início
+            const iniciaComVerbo = /^(rever|fazer|ter|ser|ir|aumentar|marcar|discutir|falar|entregar)/.test(s);
+            const conector = iniciaComVerbo ? "para " : "sobre "; 
+            const conectorLongo = iniciaComVerbo ? "com o objetivo de " : "relativamente a ";
+
+            // 3. SAUDAÇÃO
+            let saudacao = "";
+            if(d.form === 'formal') saudacao = (ultimoChar === 'a') ? `Prezada ${dest},` : `Prezado ${dest},`;
+            else if(d.form === 'informal') saudacao = `Olá ${dest}, tudo bem?`;
+            else saudacao = `Olá ${dest},`;
+
+            // 4. CORPO DA MENSAGEM (3 VARIAÇÕES)
+            let corpo = "";
+            
+            if(v === 1) { // DIRETA
+                corpo = `Entro em contacto consigo ${conector}${s}. Gostaria de saber qual a melhor forma de tratarmos deste assunto.`;
+            } else if(v === 2) { // DIPLOMÁTICA
+                corpo = `Espero que se encontre bem. Escrevo-lhe ${conectorLongo}${s}. Sinto que seria importante analisarmos esta questão com brevidade.`;
+            } else { // ELABORADA
+                corpo = `Venho por este meio solicitar a sua atenção ${conectorLongo}${s}. Acredito que, com a devida análise, conseguiremos chegar a uma solução positiva.`;
             }
 
-            const fecho = d.form === 'formal' ? `\n\nAtenciosamente,\n${d.nome}` : `\n\nMelhores cumprimentos,\n${d.nome}`;
-            
-            if(v === 1) return `${saud}\n\n${introducao} ${argumento} Fico à disposição para qualquer esclarecimento.\n\n${fecho}`;
-            return `${saud}\n\n${introducao} Gostaria de perceber se existe abertura para discutirmos isto com mais detalhe, visando um desfecho positivo para ambos.\n\n${fecho}`;
+            // 5. EXPANSÃO POR TAMANHO (AQUI ESTÁ A LÓGICA QUE FALTAVA)
+            if(d.tam === 'medio' || d.tam === 'longo') {
+                if(s.includes("nota") || s.includes("prova")) {
+                    corpo += ` O meu objetivo é compreender melhor o meu desempenho e alinhar expectativas para o futuro.`;
+                } else if(s.includes("aumento") || s.includes("salário")) {
+                    corpo += ` Tenho estado muito focado nos objetivos da equipa e gostaria de discutir o meu percurso.`;
+                } else {
+                    corpo += ` Agradeço desde já a sua disponibilidade para me ajudar com esta situação.`;
+                }
+            }
+
+            if(d.tam === 'longo') {
+                corpo += ` Fico a aguardar o seu feedback e estou totalmente disponível para reunir presencialmente, caso considere necessário.`;
+            }
+
+            // 6. DESPEDIDA
+            let desp = "";
+            if(d.form === 'formal') desp = `\n\nAtenciosamente,\n${d.nome}`;
+            else if(d.form === 'informal') desp = `\n\nUm abraço,\n${d.nome}`;
+            else desp = `\n\nMelhores cumprimentos,\n${d.nome}`;
+
+            return `${saudacao}\n\n${corpo}${desp}`;
         }
+
         function back() { document.getElementById('step-2').classList.add('hidden'); document.getElementById('step-1').classList.remove('hidden'); }
         function copy(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); alert("Copiado!"); }
         function toggleModal() { const m = document.getElementById('policyModal'); m.style.display = m.style.display === 'block' ? 'none' : 'block'; }
