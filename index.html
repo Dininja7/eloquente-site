@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eloquente - Gerador de Mensagens Profissionais</title>
+    <title>Eloquente - Gerador Inteligente</title>
     <style>
         :root { --primary: #0f766e; --bg-page: #f3f4f6; --text: #1f2937; --border: #d1d5db; }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-page); color: var(--text); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; }
@@ -16,15 +16,13 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 5px; }
-        .instruction { font-size: 11px; color: #ef4444; margin-bottom: 8px; display: block; font-weight: bold; }
         input, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; font-family: inherit; }
         .grid-options { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
         .chip { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 13px; background: white; transition: 0.2s; }
         .chip.active { background-color: var(--primary); color: white; border-color: var(--primary); }
         .btn-primary { width: 100%; background-color: var(--primary); color: white; border: none; padding: 16px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 15px; }
         .btn-secondary { background: transparent; color: #6b7280; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; margin-bottom: 20px; font-size: 14px; }
-        .version-tag { font-size: 11px; font-weight: bold; color: var(--primary); margin: 25px 0 8px 0; display: block; text-transform: uppercase; }
-        .result-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+        .result-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 25px; }
         .result-text { font-size: 15px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; }
         .copy-btn { font-size: 12px; color: var(--primary); background: #f0fdfa; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 10px; }
         footer { text-align: center; margin-top: 50px; padding: 25px; border-top: 2px solid var(--border); background: #ffffff; }
@@ -40,90 +38,69 @@
     <header><div class="logo-icon">E</div><span class="brand-name">Eloquente</span></header>
     <div class="container">
         <div id="step-1" class="screen">
-            <h2>Criar Mensagem</h2>
+            <h2>O que pretendes escrever?</h2>
+            <div class="form-group"><textarea id="situacao" rows="3" placeholder="Ex: revisão da nota de português para aumentar a média interna..."></textarea></div>
+            <div class="form-group"><label>Para quem é?</label><input type="text" id="destinatario" placeholder="Ex: Professora Maria"></div>
+            <div class="form-group"><label>O teu nome</label><input type="text" id="nomeUsuario" placeholder="O teu nome"></div>
             <div class="form-group">
-                <label>O teu nome</label>
-                <span class="instruction">Atenção: escreva apenas a primeira letra em maiúscula (Ex: Pedro)</span>
-                <input type="text" id="nomeUsuario" placeholder="O teu nome">
-            </div>
-            <div class="form-group"><label>O que pretendes fazer? (Situação)</label>
-            <textarea id="situacao" rows="3" placeholder="Ex: pedir para repetir o teste / avisar que vou chegar atrasado..."></textarea></div>
-            <div class="form-group"><label>Para quem é?</label><input type="text" id="destinatario" placeholder="Ex: Professora Maria / Chefe Ricardo"></div>
-            <div class="form-group">
-                <label>Formalidade</label>
+                <label>Tom da mensagem</label>
                 <div class="grid-options" id="formal-group">
                     <div class="chip" onclick="selectOpt('formal-group', this)" data-val="informal">Amigável</div>
-                    <div class="chip active" onclick="selectOpt('formal-group', this)" data-val="neutro">Equilibrado</div>
+                    <div class="chip active" onclick="selectOpt('formal-group', this)" data-val="neutro">Profissional</div>
                     <div class="chip" onclick="selectOpt('formal-group', this)" data-val="formal">Muito Formal</div>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Tamanho</label>
-                <div class="grid-options" id="tam-group">
-                    <div class="chip" onclick="selectOpt('tam-group', this)" data-val="curto">Curto</div>
-                    <div class="chip active" onclick="selectOpt('tam-group', this)" data-val="medio">Médio</div>
-                    <div class="chip" onclick="selectOpt('tam-group', this)" data-val="longo">Longo</div>
-                </div>
-            </div>
-            <button class="btn-primary" onclick="gerar()">✨ Gerar Mensagem Profissional</button>
+            <button class="btn-primary" onclick="gerar()">✨ Gerar Texto Personalizado</button>
         </div>
-        <div id="loading" class="hidden"><div class="spinner"></div><p>A redigir opções...</p></div>
+        <div id="loading" class="hidden"><div class="spinner"></div><p>A processar contexto e tom...</p></div>
         <div id="step-2" class="screen hidden">
             <button class="btn-secondary" onclick="back()">← Editar informações</button>
-            <span class="version-tag">Opção 1: Direta e Simples</span><div class="result-card"><div class="result-text" id="res-1"></div><button class="copy-btn" onclick="copy('res-1')">Copiar</button></div>
-            <span class="version-tag">Opção 2: Cordial e Explicativa</span><div class="result-card"><div class="result-text" id="res-2"></div><button class="copy-btn" onclick="copy('res-2')">Copiar</button></div>
-            <span class="version-tag">Opção 3: Proativa e Detalhada</span><div class="result-card"><div class="result-text" id="res-3"></div><button class="copy-btn" onclick="copy('res-3')">Copiar</button></div>
+            <div class="result-card"><div class="result-text" id="res-1"></div><button class="copy-btn" onclick="copy('res-1')">Copiar Opção 1</button></div>
+            <div class="result-card"><div class="result-text" id="res-2"></div><button class="copy-btn" onclick="copy('res-2')">Copiar Opção 2</button></div>
         </div>
     </div>
     <footer><p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p></footer>
     <div id="policyModal" class="modal"><div class="modal-content"><span style="float:right;cursor:pointer" onclick="toggleModal()">&times;</span>
     <h3>Política de Privacidade</h3>
-    <p>A sua privacidade é importante. Os dados que insere são usados apenas para gerar o texto e não são guardados.</p>
-    <p><strong>Google AdSense:</strong> Utilizamos cookies para apresentar anúncios personalizados. O Google utiliza o cookie DART para servir anúncios baseados nas suas visitas a este e outros sites na internet.</p></div></div>
+    <p>Dados processados localmente. Utilizamos cookies do Google AdSense para anúncios.</p></div></div>
     <script>
         function selectOpt(g, e) { Array.from(document.getElementById(g).children).forEach(c => c.classList.remove('active')); e.classList.add('active'); }
         function gerar() {
             const sit = document.getElementById('situacao').value; if(!sit) return alert("Descreva a situação");
             document.getElementById('step-1').classList.add('hidden'); document.getElementById('loading').classList.remove('hidden');
             setTimeout(() => {
-                const d = { sit, nome: document.getElementById('nomeUsuario').value || "[Teu Nome]", dest: document.getElementById('destinatario').value || "Destinatário", form: document.querySelector('#formal-group .active').getAttribute('data-val'), tam: document.querySelector('#tam-group .active').getAttribute('data-val') };
+                const d = { sit, nome: document.getElementById('nomeUsuario').value || "[Teu Nome]", dest: document.getElementById('destinatario').value || "Destinatário", form: document.querySelector('#formal-group .active').getAttribute('data-val') };
                 document.getElementById('res-1').innerText = engine(d, 1);
                 document.getElementById('res-2').innerText = engine(d, 2);
-                document.getElementById('res-3').innerText = engine(d, 3);
                 document.getElementById('loading').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden');
             }, 800);
         }
 
         function engine(d, v) {
             const dest = d.dest.trim();
-            const ultimoChar = dest.slice(-1).toLowerCase();
-            const sitL = d.sit.toLowerCase().trim();
+            const s = d.sit.toLowerCase().trim().replace(/^(pedir para|avisar que|queria|gostaria de|fazer)/g, "").trim();
+            const genero = (dest.slice(-1).toLowerCase() === 'a') ? "a" : "o";
+            const saud = d.form === 'formal' ? `Prezad${genero} ${dest},` : `Olá ${dest},`;
+
+            // LÓGICA DE CATEGORIA (Simulação de IA)
+            let introducao = "";
+            let argumento = "";
             
-            // Lógica de Gênero
-            let saud = "Olá " + dest + ",";
-            if(d.form === 'formal') saud = (ultimoChar === 'a') ? "Prezada " + dest + "," : "Prezado " + dest + ",";
-            if(d.form === 'informal') saud = "Oi " + dest + ", tudo bem?";
-
-            let msg = "";
-            // Construção do corpo conforme a opção (Variedade Real)
-            if(v === 1) {
-                msg = `Gostaria de falar consigo para ${sitL}. Poderia dizer-me qual a melhor forma de tratarmos deste assunto?`;
-            } else if(v === 2) {
-                msg = `Espero que esteja bem. Entro em contacto porque preciso de ${sitL}. Se for possível, agradecia a sua orientação sobre os próximos passos.`;
+            if(s.includes("nota") || s.includes("prova") || s.includes("exame")) {
+                introducao = v === 1 ? `Gostaria de abordar a questão da ${s}.` : `Relativamente ao meu desempenho em ${s},`;
+                argumento = `Sinto que o meu empenho na disciplina justifica uma breve análise deste ponto, focando-me na melhoria dos meus resultados internos.`;
+            } else if(s.includes("atraso") || s.includes("falta") || s.includes("ausência")) {
+                introducao = `Escrevo para informar sobre ${s}.`;
+                argumento = `Infelizmente, devido a motivos imprevistos, não conseguirei cumprir o horário habitual e agradeço a sua compreensão.`;
             } else {
-                msg = `Venho por este meio expor a minha necessidade de ${sitL}. Acredito que esta é a melhor abordagem para resolvermos a situação da forma mais célere possível.`;
+                introducao = `Entro em contacto para tratar de ${s}.`;
+                argumento = `Acredito que seria benéfico conversarmos para alinhar os detalhes e garantir que tudo corra da melhor forma.`;
             }
 
-            // Expansão por tamanho
-            if(d.tam === 'medio' || d.tam === 'longo') {
-                msg += ` Compreendo que possa estar com a agenda ocupada, mas este é um tema importante para mim.`;
-            }
-            if(d.tam === 'longo') {
-                msg += ` Fico totalmente disponível para agendarmos uma breve conversa ou para enviar quaisquer detalhes adicionais que facilitem a sua análise.`;
-            }
-
-            let desp = (d.form === 'formal') ? `\n\nAtenciosamente,\n${d.nome}` : `\n\nMelhores cumprimentos,\n${d.nome}`;
-            return `${saud}\n\n${msg}${desp}`;
+            const fecho = d.form === 'formal' ? `\n\nAtenciosamente,\n${d.nome}` : `\n\nMelhores cumprimentos,\n${d.nome}`;
+            
+            if(v === 1) return `${saud}\n\n${introducao} ${argumento} Fico à disposição para qualquer esclarecimento.\n\n${fecho}`;
+            return `${saud}\n\n${introducao} Gostaria de perceber se existe abertura para discutirmos isto com mais detalhe, visando um desfecho positivo para ambos.\n\n${fecho}`;
         }
         function back() { document.getElementById('step-2').classList.add('hidden'); document.getElementById('step-1').classList.remove('hidden'); }
         function copy(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); alert("Copiado!"); }
