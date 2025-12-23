@@ -25,9 +25,9 @@
         .btn-secondary { background: transparent; color: #6b7280; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; margin-bottom: 20px; font-size: 14px; }
         .version-tag { font-size: 11px; font-weight: bold; color: var(--primary); margin: 25px 0 8px 0; display: block; text-transform: uppercase; }
         .result-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        .result-text { font-size: 15px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 15px; }
-        .copy-btn { font-size: 12px; color: var(--primary); background: #f0fdfa; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        footer { text-align: center; margin-top: 50px; padding: 25px; border-top: 2px solid var(--border); background: #ffffff; width: 100%; box-sizing: border-box; }
+        .result-text { font-size: 15px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; }
+        .copy-btn { font-size: 12px; color: var(--primary); background: #f0fdfa; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 10px; }
+        footer { text-align: center; margin-top: 50px; padding: 25px; border-top: 2px solid var(--border); background: #ffffff; }
         footer a { color: var(--primary); text-decoration: underline; font-weight: bold; cursor: pointer; }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
         .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 12px; width: 85%; max-width: 500px; position: relative; }
@@ -40,49 +40,53 @@
     <header><div class="logo-icon">E</div><span class="brand-name">Eloquente</span></header>
     <div class="container">
         <div id="step-1" class="screen">
-            <h2>Configurar Mensagem</h2>
+            <h2>Criar Mensagem</h2>
             <div class="form-group">
                 <label>O teu nome</label>
                 <span class="instruction">Atenção: escreva apenas a primeira letra em maiúscula (Ex: Pedro)</span>
-                <input type="text" id="nomeUsuario" placeholder="Ex: Pedro">
+                <input type="text" id="nomeUsuario" placeholder="O teu nome">
             </div>
-            <div class="form-group"><label>Qual é a situação?</label><textarea id="situacao" rows="3" placeholder="Ex: Pedir revisão de nota..."></textarea></div>
-            <div class="form-group"><label>Para quem é?</label><input type="text" id="destinatario" placeholder="Ex: Professor João ou Maria"></div>
+            <div class="form-group"><label>O que pretendes fazer? (Situação)</label>
+            <textarea id="situacao" rows="3" placeholder="Ex: pedir para repetir o teste / avisar que vou chegar atrasado..."></textarea></div>
+            <div class="form-group"><label>Para quem é?</label><input type="text" id="destinatario" placeholder="Ex: Professora Maria / Chefe Ricardo"></div>
             <div class="form-group">
                 <label>Formalidade</label>
                 <div class="grid-options" id="formal-group">
-                    <div class="chip" onclick="selectOpt('formal-group', this)" data-val="informal">Informal</div>
-                    <div class="chip active" onclick="selectOpt('formal-group', this)" data-val="neutro">Neutro</div>
+                    <div class="chip" onclick="selectOpt('formal-group', this)" data-val="informal">Amigável</div>
+                    <div class="chip active" onclick="selectOpt('formal-group', this)" data-val="neutro">Equilibrado</div>
                     <div class="chip" onclick="selectOpt('formal-group', this)" data-val="formal">Muito Formal</div>
                 </div>
             </div>
             <div class="form-group">
-                <label>Tamanho da mensagem</label>
+                <label>Tamanho</label>
                 <div class="grid-options" id="tam-group">
                     <div class="chip" onclick="selectOpt('tam-group', this)" data-val="curto">Curto</div>
                     <div class="chip active" onclick="selectOpt('tam-group', this)" data-val="medio">Médio</div>
                     <div class="chip" onclick="selectOpt('tam-group', this)" data-val="longo">Longo</div>
                 </div>
             </div>
-            <button class="btn-primary" onclick="gerar()">✨ Gerar Opções de Mensagem</button>
+            <button class="btn-primary" onclick="gerar()">✨ Gerar Mensagem Profissional</button>
         </div>
-        <div id="loading" class="hidden"><div class="spinner"></div><p>A redigir variações...</p></div>
+        <div id="loading" class="hidden"><div class="spinner"></div><p>A redigir opções...</p></div>
         <div id="step-2" class="screen hidden">
-            <button class="btn-secondary" onclick="back()">← Voltar</button>
-            <span class="version-tag">Opção 1: Direta</span><div class="result-card"><div class="result-text" id="res-1"></div><button class="copy-btn" onclick="copy('res-1')">Copiar</button></div>
-            <span class="version-tag">Opção 2: Diplomática</span><div class="result-card"><div class="result-text" id="res-2"></div><button class="copy-btn" onclick="copy('res-2')">Copiar</button></div>
-            <span class="version-tag">Opção 3: Elaborada</span><div class="result-card"><div class="result-text" id="res-3"></div><button class="copy-btn" onclick="copy('res-3')">Copiar</button></div>
+            <button class="btn-secondary" onclick="back()">← Editar informações</button>
+            <span class="version-tag">Opção 1: Direta e Simples</span><div class="result-card"><div class="result-text" id="res-1"></div><button class="copy-btn" onclick="copy('res-1')">Copiar</button></div>
+            <span class="version-tag">Opção 2: Cordial e Explicativa</span><div class="result-card"><div class="result-text" id="res-2"></div><button class="copy-btn" onclick="copy('res-2')">Copiar</button></div>
+            <span class="version-tag">Opção 3: Proativa e Detalhada</span><div class="result-card"><div class="result-text" id="res-3"></div><button class="copy-btn" onclick="copy('res-3')">Copiar</button></div>
         </div>
     </div>
     <footer><p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p></footer>
-    <div id="policyModal" class="modal"><div class="modal-content"><span style="float:right;cursor:pointer" onclick="toggleModal()">&times;</span><h3>Política de Privacidade</h3><p>Os dados são processados apenas localmente e não são guardados.</p></div></div>
+    <div id="policyModal" class="modal"><div class="modal-content"><span style="float:right;cursor:pointer" onclick="toggleModal()">&times;</span>
+    <h3>Política de Privacidade</h3>
+    <p>A sua privacidade é importante. Os dados que insere são usados apenas para gerar o texto e não são guardados.</p>
+    <p><strong>Google AdSense:</strong> Utilizamos cookies para apresentar anúncios personalizados. O Google utiliza o cookie DART para servir anúncios baseados nas suas visitas a este e outros sites na internet.</p></div></div>
     <script>
         function selectOpt(g, e) { Array.from(document.getElementById(g).children).forEach(c => c.classList.remove('active')); e.classList.add('active'); }
         function gerar() {
             const sit = document.getElementById('situacao').value; if(!sit) return alert("Descreva a situação");
             document.getElementById('step-1').classList.add('hidden'); document.getElementById('loading').classList.remove('hidden');
             setTimeout(() => {
-                const d = { sit, nome: document.getElementById('nomeUsuario').value || "[Nome]", dest: document.getElementById('destinatario').value || "Destinatário", form: document.querySelector('#formal-group .active').getAttribute('data-val'), tam: document.querySelector('#tam-group .active').getAttribute('data-val') };
+                const d = { sit, nome: document.getElementById('nomeUsuario').value || "[Teu Nome]", dest: document.getElementById('destinatario').value || "Destinatário", form: document.querySelector('#formal-group .active').getAttribute('data-val'), tam: document.querySelector('#tam-group .active').getAttribute('data-val') };
                 document.getElementById('res-1').innerText = engine(d, 1);
                 document.getElementById('res-2').innerText = engine(d, 2);
                 document.getElementById('res-3').innerText = engine(d, 3);
@@ -91,46 +95,36 @@
         }
 
         function engine(d, v) {
-            const s = d.sit;
             const dest = d.dest.trim();
             const ultimoChar = dest.slice(-1).toLowerCase();
+            const sitL = d.sit.toLowerCase().trim();
             
-            // Deteção de género simplificada (a/o)
-            let saudacao = "";
-            if(d.form === 'formal') {
-                saudacao = (ultimoChar === 'a') ? `Prezada ${dest},` : `Prezado ${dest},`;
-            } else if(d.form === 'informal') {
-                saudacao = `Olá ${dest}, tudo bem?`;
-            } else {
-                saudacao = `Olá ${dest},`;
-            }
+            // Lógica de Gênero
+            let saud = "Olá " + dest + ",";
+            if(d.form === 'formal') saud = (ultimoChar === 'a') ? "Prezada " + dest + "," : "Prezado " + dest + ",";
+            if(d.form === 'informal') saud = "Oi " + dest + ", tudo bem?";
 
-            let corpo = "";
-            // Variedade de estruturas conforme a opção (v)
+            let msg = "";
+            // Construção do corpo conforme a opção (Variedade Real)
             if(v === 1) {
-                corpo = `Escrevo este contacto para tratar diretamente de ${s}. Gostaria de solicitar a sua atenção para analisarmos este ponto com brevidade.`;
+                msg = `Gostaria de falar consigo para ${sitL}. Poderia dizer-me qual a melhor forma de tratarmos deste assunto?`;
             } else if(v === 2) {
-                corpo = `Espero que se encontre bem. Gostaria de partilhar uma questão relativa a ${s}. O meu objetivo é clarificar os detalhes e encontrar a melhor forma de avançarmos.`;
+                msg = `Espero que esteja bem. Entro em contacto porque preciso de ${sitL}. Se for possível, agradecia a sua orientação sobre os próximos passos.`;
             } else {
-                corpo = `Tendo em conta os últimos acontecimentos sobre ${s}, sinto que seria produtivo discutirmos o assunto. Gostaria de agendar um momento ou receber o seu feedback sobre este tópico.`;
+                msg = `Venho por este meio expor a minha necessidade de ${sitL}. Acredito que esta é a melhor abordagem para resolvermos a situação da forma mais célere possível.`;
             }
 
-            // Expansão de conteúdo conforme o tamanho selecionado
+            // Expansão por tamanho
             if(d.tam === 'medio' || d.tam === 'longo') {
-                corpo += ` Acredito que uma comunicação clara neste momento evitará qualquer mal-entendido futuro e facilitará o progresso do que foi solicitado.`;
+                msg += ` Compreendo que possa estar com a agenda ocupada, mas este é um tema importante para mim.`;
             }
             if(d.tam === 'longo') {
-                corpo += ` Fico à sua inteira disposição para fornecer documentos adicionais ou reunir-me presencialmente, caso considere necessário para uma melhor compreensão da situação.`;
+                msg += ` Fico totalmente disponível para agendarmos uma breve conversa ou para enviar quaisquer detalhes adicionais que facilitem a sua análise.`;
             }
 
-            let despedida = "";
-            if(d.form === 'formal') despedida = `\n\nAtenciosamente,\n${d.nome}`;
-            else if(d.form === 'informal') despedida = `\n\nUm abraço,\n${d.nome}`;
-            else despedida = `\n\nMelhores cumprimentos,\n${d.nome}`;
-
-            return `${saudacao}\n\n${corpo}${despedida}`;
+            let desp = (d.form === 'formal') ? `\n\nAtenciosamente,\n${d.nome}` : `\n\nMelhores cumprimentos,\n${d.nome}`;
+            return `${saud}\n\n${msg}${desp}`;
         }
-
         function back() { document.getElementById('step-2').classList.add('hidden'); document.getElementById('step-1').classList.remove('hidden'); }
         function copy(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); alert("Copiado!"); }
         function toggleModal() { const m = document.getElementById('policyModal'); m.style.display = m.style.display === 'block' ? 'none' : 'block'; }
