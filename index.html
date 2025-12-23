@@ -186,8 +186,11 @@
         </div>
     </div>
 
-    <footer> <p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p>
-   
+    <footer> 
+        <p>&copy; 2025 Eloquente. | 
+            <a onclick="toggleModal()">Política de Privacidade</a>
+            <a onclick="toggleModal()" style="cursor:pointer;">Política de Privacidade</a>
+        </p>
     </footer>
 
     <div id="policyModal" class="modal">
@@ -198,7 +201,14 @@
             <p><strong>Google AdSense:</strong> Este site utiliza cookies para personalizar anúncios e analisar o tráfego. O Google utiliza o cookie DART para servir anúncios baseados nas suas visitas a este e outros sites na internet.</p>
         </div>
     </div>
-
+<div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleAbout()">&times;</span>
+            <h3>Sobre o Eloquente</h3>
+            <p>O <strong>Eloquente</strong> é uma ferramenta gratuita desenhada para ajudar estudantes e profissionais a redigirem mensagens eficazes e polidas.</p>
+            <p>O nosso foco é a produtividade e a etiqueta, garantindo que a sua comunicação seja sempre adequada ao contexto.</p>
+        </div>
+    </div>
     <script>
         function selectOpt(g, e) {
             Array.from(document.getElementById(g).children).forEach(c => c.classList.remove('active'));
