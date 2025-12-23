@@ -47,6 +47,37 @@
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
         .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 12px; width: 85%; max-width: 500px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #9ca3af; }
+        /* Novas dicas de etiqueta */
+        .tips-section {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px dashed var(--border);
+        }
+        .tips-section h3 {
+            color: var(--primary);
+            font-size: 18px;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tip-card {
+            margin-bottom: 15px;
+        }
+        .tip-card h4 {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #374151;
+        }
+        .tip-card p {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
@@ -106,6 +137,24 @@
             <div class="result-card"><div class="result-text" id="res-2"></div><button class="copy-btn" onclick="copy('res-2')">Copiar</button></div>
             <span class="version-tag">Opção 3: Elaborada</span>
             <div class="result-card"><div class="result-text" id="res-3"></div><button class="copy-btn" onclick="copy('res-3')">Copiar</button></div>
+        </div>
+    </div>
+ </div> <div class="tips-section">
+        <h3>💡 Dicas de Etiqueta Profissional</h3>
+        
+        <div class="tip-card">
+            <h4>Quando ser "Muito Formal"?</h4>
+            <p>Usa esta opção para superiores hierárquicos que não conheces bem ou entidades oficiais.</p>
+        </div>
+
+        <div class="tip-card">
+            <h4>O poder da brevidade</h4>
+            <p>Em e-mails de trabalho, menos é mais. As pessoas valorizam quem é direto e não faz perder tempo.</p>
+        </div>
+
+        <div class="tip-card">
+            <h4>Assunto do E-mail</h4>
+            <p>Nunca envies um e-mail sem assunto. Exemplo: "Aviso: Atraso na reunião das 10h".</p>
         </div>
     </div>
 
