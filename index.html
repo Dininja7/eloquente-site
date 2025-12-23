@@ -7,37 +7,52 @@
     <style>
         :root { --primary: #0f766e; --bg-page: #f3f4f6; --text: #1f2937; --border: #d1d5db; }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-page); color: var(--text); margin: 0; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; }
+        
         header { max-width: 600px; width: 100%; margin: 0 auto 20px auto; display: flex; align-items: center; gap: 10px; }
         .logo-icon { width: 35px; height: 35px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; }
         .brand-name { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -1px; }
+
         .container { background: white; width: 100%; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); flex-grow: 1; }
         .screen { display: block; animation: fadeIn 0.4s ease; }
         .hidden { display: none; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 5px; }
         .instruction { font-size: 11px; color: #ef4444; margin-bottom: 8px; display: block; font-weight: bold; }
         input, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        
         .grid-options { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
-        .chip { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 13px; background: white; transition: 0.2s; }
+        .chip { padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 13px; background: white; }
         .chip.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+
         .btn-primary { width: 100%; background-color: var(--primary); color: white; border: none; padding: 16px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 15px; }
         .btn-secondary { background: transparent; color: #6b7280; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; margin-bottom: 20px; font-size: 14px; }
+
         .version-tag { font-size: 11px; font-weight: bold; color: var(--primary); margin: 25px 0 8px 0; display: block; text-transform: uppercase; }
         .result-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 10px; }
         .result-text { font-size: 15px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 15px; }
         .copy-btn { font-size: 12px; color: var(--primary); background: #f0fdfa; border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid var(--border); }
-        footer a { color: var(--primary); text-decoration: underline; font-weight: bold; cursor: pointer; }
+        
+        /* RODAPÉ E POLÍTICA - NOVO ESTILO */
+        footer { text-align: center; margin-top: 50px; padding: 25px; border-top: 2px solid var(--border); background: #ffffff; width: 100%; box-sizing: border-box; }
+        footer p { font-size: 14px; color: #4b5563; margin: 0; }
+        footer a { color: var(--primary); text-decoration: underline; font-weight: bold; cursor: pointer; margin-left: 10px; }
+
+        /* MODAL DA POLÍTICA */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
-        .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 12px; width: 85%; max-width: 500px; position: relative; }
+        .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 12px; width: 85%; max-width: 500px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #9ca3af; }
+
         #loading { text-align: center; padding: 60px; }
         .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+
     <header><div class="logo-icon">E</div><span class="brand-name">Eloquente</span></header>
+
     <div class="container">
         <div id="step-1" class="screen">
             <h2>Configurar Mensagem</h2>
@@ -66,7 +81,9 @@
             </div>
             <button class="btn-primary" onclick="gerar()">✨ Gerar mensagem</button>
         </div>
+
         <div id="loading" class="hidden"><div class="spinner"></div><p>A redigir variações...</p></div>
+
         <div id="step-2" class="screen hidden">
             <button class="btn-secondary" onclick="back()">← Voltar</button>
             <span class="version-tag">Opção 1</span><div class="result-card"><div class="result-text" id="res-1"></div><button class="copy-btn" onclick="copy('res-1')">Copiar</button></div>
@@ -74,8 +91,20 @@
             <span class="version-tag">Opção 3</span><div class="result-card"><div class="result-text" id="res-3"></div><button class="copy-btn" onclick="copy('res-3')">Copiar</button></div>
         </div>
     </div>
-    <footer><p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p></footer>
-    <div id="policyModal" class="modal"><div class="modal-content"><span style="float:right;cursor:pointer" onclick="toggleModal()">&times;</span><h3>Política de Privacidade</h3><p>Os dados são processados apenas localmente e não são guardados.</p></div></div>
+
+    <footer>
+        <p>&copy; 2024 Eloquente. | <a onclick="toggleModal()">Política de Privacidade</a></p>
+    </footer>
+
+    <div id="policyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal()">&times;</span>
+            <h3>Política de Privacidade</h3>
+            <p>Respeitamos a sua privacidade. Os dados que insere no formulário são processados apenas para gerar os textos no seu navegador e <strong>não são guardados</strong>.</p>
+            <p>Este site utiliza cookies básicos para melhorar a sua experiência e para a exibição de anúncios via Google AdSense.</p>
+        </div>
+    </div>
+
     <script>
         function selectOpt(g, e) { Array.from(document.getElementById(g).children).forEach(c => c.classList.remove('active')); e.classList.add('active'); }
         function gerar() {
@@ -91,7 +120,7 @@
         }
         function engine(d, v) {
             const s = d.sit.toLowerCase(); let ctx = "este assunto";
-            if(s.includes("nota")) ctx = "a minha avaliação";
+            if(s.includes("nota") || s.includes("prova")) ctx = "a minha avaliação";
             let saud = d.form === 'formal' ? `Prezado(a) ${d.dest},` : `Olá ${d.dest},`;
             let corpo = v === 1 ? `Escrevo sobre ${d.sit}. Gostaria de analisar ${ctx}.` : v === 2 ? `Gostaria de falar sobre ${d.sit} para clarificar ${ctx}.` : `Sobre ${d.sit}, sinto que devemos alinhar ${ctx}.`;
             if(d.tam !== 'curto') corpo += ` Agradeço a sua atenção e disponibilidade para resolvermos isto.`;
